@@ -1,20 +1,14 @@
-
 <%- include("partials/header"); -%>
-    <h1>Welcome to Your Journal!</h1>
-    <h4>Capture Your Thoughts and Memories Here....</h4>
-    <p> <%= startingContent %> </p>
+<h1>Welcome to Your Journal!</h1>
+<h4>Capture Your Thoughts and Memories Here....</h4>
+<p><%= startingContent %></p>
 
-
-  <%  posts.forEach(function(post){ %>
-
-    <h1><%=post.title%></h1>
-    <p>
-    <%=post.content.substring(0, 100) + " ..."%>
-    <a href="/posts/<%=post.title%>">Read More</a>
-    </p>
-
-
-    <% }) %>
-
+<% posts.forEach(function(post){ %>
+  <h1><%= post.title %></h1>
+  <p>
+    <%= post.content.substring(0, 100) + " ..." %>
+    <a href="/posts/<%= post._id %>">Read More</a>
+  </p>
+<% }) %>
 
 <%- include("partials/footer"); -%>
