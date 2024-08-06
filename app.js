@@ -1,4 +1,5 @@
 //jshint esversion:6
+require('dotenv').config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -19,11 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use(session({
-  secret: "Our little secret.",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ 
-    mongoUrl: "mongodb://localhost:27017/journalDB" // Your MongoDB URL here
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL
   })
 }));
 
@@ -149,6 +150,7 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
