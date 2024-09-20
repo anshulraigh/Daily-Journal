@@ -147,3 +147,10 @@ a {
 a:hover {
   color: #17a589;
 }
+
+.post-content {
+  white-space: pre-line; /* Preserve paragraph breaks and new lines */
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
