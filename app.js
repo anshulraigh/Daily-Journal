@@ -51,13 +51,27 @@ function checkNotAuthenticated(req, res, next) {
 
 app.get("/", checkAuthenticated, async (req, res) => {
   try {
-    const posts = await Post.find({});
+    const posts = await Post.find({ public: true }).populate('author', 'username'); // Populate username for display
     res.render("home", {
       startingContent: "Start writing your story and see your entries come to life below.",
       posts: posts
     });
   } catch (err) {
     console.error("Error fetching posts", err);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/myjournals", checkAuthenticated, async (req, res) => {
+  try {
+    // Fetch posts of the authenticated user (both public and private)
+    const posts = await Post.find({ author: req.user._id }).populate('author', 'username'); // Populate username for display
+
+    res.render("myjournals", {
+      posts: posts
+    });
+  } catch (err) {
+    console.error("Error fetching user's posts", err);
     res.sendStatus(500);
   }
 });
@@ -75,26 +89,33 @@ app.get("/compose", checkAuthenticated, (req, res) => {
 });
 
 app.post("/compose", checkAuthenticated, async (req, res) => {
+  const isPublic = req.body.isPublic === 'true'; // Check if the journal should be public
+
   const post = new Post({
     title: req.body.postTitle,
-    content: req.body.postBody
+    content: req.body.postBody,
+    public: isPublic, // Save whether the post is public or private
+    author: req.user._id // Save the author as the logged-in user
   });
 
   try {
     await post.save();
-    res.redirect("/");
+    res.redirect("/myjournals"); // Redirect to My Journals after saving
   } catch (err) {
     console.error("Error saving post", err);
     res.sendStatus(500);
   }
 });
 
+
 app.get("/posts/:postId", checkAuthenticated, async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.postId });
     res.render("post", {
       title: post.title,
-      content: post.content
+      content: post.content,
+      author: post.author,
+      createdAt: post.createdAt
     });
   } catch (err) {
     console.error("Error fetching post", err);
