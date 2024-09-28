@@ -51,7 +51,6 @@ html {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    /* text-align: center; */
 }
 
 .form-container h1 {
@@ -153,4 +152,109 @@ a:hover {
   font-size: 16px;
   line-height: 1.6;
   color: #333;
+}
+
+/* Styling for the pagination controls */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.pagination .pagination-link {
+  margin: 0 5px;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .pagination-link:hover {
+  background-color: #1abc9c;
+  color: white;
+}
+
+.pagination .pagination-link.active {
+  background-color: #17a589;
+  color: white;
+  font-weight: bold;
+  border-color: #1abc9c;
+}
+
+/* Responsive tweaks for pagination */
+@media (max-width: 768px) {
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pagination .pagination-link {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+  }
+}
+
+
+/* Styling for the Back to Top Button */
+#backToTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  font-size: 18px;
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#scrollTopBtn:hover {
+  background-color: #17a589;
+  transform: scale(1.1);
+}
+
+/* Styling for post previews */
+.post-preview {
+  margin-bottom: 30px;
+}
+
+.post-preview h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.post-preview .post-excerpt {
+  font-size: 16px;
+  color: #555;
+}
+
+.read-more {
+  font-weight: bold;
+  color: #1abc9c;
+}
+
+.read-more:hover {
+  color: #17a589;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .pagination-controls .btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
 }
