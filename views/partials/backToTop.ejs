@@ -1,0 +1,20 @@
+<!-- Back to Top Button -->
+<button onclick="scrollToTop()" id="backToTopBtn" title="Go to top">Top</button>
+
+<script>
+  // Scroll to Top Button Functionality
+  var topButton = document.getElementById("backToTopBtn");
+
+  window.onscroll = function() {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      topButton.style.display = "block";
+    } else {
+      topButton.style.display = "none";
+    }
+  };
+
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+</script>
