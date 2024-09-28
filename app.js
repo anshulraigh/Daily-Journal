@@ -49,12 +49,26 @@ function checkNotAuthenticated(req, res, next) {
   next();
 }
 
+// Pagination settings
+const POSTS_PER_PAGE = 10;
+
+// Home page: display public posts with pagination
 app.get("/", checkAuthenticated, async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
   try {
-    const posts = await Post.find({ public: true }).populate('author', 'username'); // Populate username for display
+    const totalPosts = await Post.countDocuments({ public: true });
+    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+    const posts = await Post.find({ public: true })
+      .populate('author', 'username')
+      .skip((page - 1) * POSTS_PER_PAGE)
+      .limit(POSTS_PER_PAGE);
+
     res.render("home", {
       startingContent: "Start writing your story and see your entries come to life below.",
-      posts: posts
+      posts: posts,
+      currentPage: page,
+      totalPages: totalPages
     });
   } catch (err) {
     console.error("Error fetching posts", err);
@@ -62,13 +76,22 @@ app.get("/", checkAuthenticated, async (req, res) => {
   }
 });
 
+// My Journals: display user's own posts (both public and private) with pagination
 app.get("/myjournals", checkAuthenticated, async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
   try {
-    // Fetch posts of the authenticated user (both public and private)
-    const posts = await Post.find({ author: req.user._id }).populate('author', 'username'); // Populate username for display
+    const totalPosts = await Post.countDocuments({ author: req.user._id });
+    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+    const posts = await Post.find({ author: req.user._id })
+      .populate('author', 'username')
+      .skip((page - 1) * POSTS_PER_PAGE)
+      .limit(POSTS_PER_PAGE);
 
     res.render("myjournals", {
-      posts: posts
+      posts: posts,
+      currentPage: page,
+      totalPages: totalPages
     });
   } catch (err) {
     console.error("Error fetching user's posts", err);
@@ -107,14 +130,13 @@ app.post("/compose", checkAuthenticated, async (req, res) => {
   }
 });
 
-
 app.get("/posts/:postId", checkAuthenticated, async (req, res) => {
   try {
-    const post = await Post.findOne({ _id: req.params.postId });
+    const post = await Post.findOne({ _id: req.params.postId }).populate('author', 'username');
     res.render("post", {
       title: post.title,
       content: post.content,
-      author: post.author,
+      author: post.author.username,
       createdAt: post.createdAt
     });
   } catch (err) {
