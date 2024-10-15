@@ -53,7 +53,7 @@ function checkNotAuthenticated(req, res, next) {
 const POSTS_PER_PAGE = 10;
 
 // Home page: display public posts with pagination
-app.get("/", checkAuthenticated, async (req, res) => {
+app.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   try {
     const totalPosts = await Post.countDocuments({ public: true });
@@ -99,11 +99,11 @@ app.get("/myjournals", checkAuthenticated, async (req, res) => {
   }
 });
 
-app.get("/about", checkAuthenticated, (req, res) => {
+app.get("/about", (req, res) => {
   res.render("about", { aboutContent: "About Content" });
 });
 
-app.get("/contact", checkAuthenticated, (req, res) => {
+app.get("/contact", (req, res) => {
   res.render("contact", { contactContent: "Contact Content" });
 });
 
