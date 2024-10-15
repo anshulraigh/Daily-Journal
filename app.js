@@ -77,30 +77,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-// My Journals: display user's own posts (both public and private) with pagination
-app.get("/myjournals", checkAuthenticated, async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  try {
-    const totalPosts = await Post.countDocuments({ author: req.user._id });
-    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
-
-    const posts = await Post.find({ author: req.user._id })
-      .populate('author', 'username')
-      .sort({ createdAt: -1 }) // Sort by creation date in descending order
-      .skip((page - 1) * POSTS_PER_PAGE)
-      .limit(POSTS_PER_PAGE);
-
-    res.render("myjournals", {
-      posts: posts,
-      currentPage: page,
-      totalPages: totalPages,
-      hasPosts: posts.length > 0 // Add a flag to check if there are posts
-    });
-  } catch (err) {
-    console.error("Error fetching user's posts", err);
-    res.sendStatus(500);
-  }
-});
 
 app.get("/about", (req, res) => {
   res.render("about", { aboutContent: "About Content" });
@@ -126,7 +102,7 @@ app.post("/compose", checkAuthenticated, async (req, res) => {
 
   try {
     await post.save();
-    res.redirect("/myjournals"); // Redirect to My Journals after saving
+    res.redirect("/"); // Redirect to My Journals after saving
   } catch (err) {
     console.error("Error saving post", err);
     res.sendStatus(500);
