@@ -61,6 +61,7 @@ app.get("/", async (req, res) => {
 
     const posts = await Post.find({ public: true })
       .populate('author', 'username')
+      .sort({ createdAt: -1 }) // Sort by creation date in descending order
       .skip((page - 1) * POSTS_PER_PAGE)
       .limit(POSTS_PER_PAGE);
 
@@ -85,6 +86,7 @@ app.get("/myjournals", checkAuthenticated, async (req, res) => {
 
     const posts = await Post.find({ author: req.user._id })
       .populate('author', 'username')
+      .sort({ createdAt: -1 }) // Sort by creation date in descending order
       .skip((page - 1) * POSTS_PER_PAGE)
       .limit(POSTS_PER_PAGE);
 
