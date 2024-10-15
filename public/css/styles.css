@@ -266,3 +266,34 @@ a:hover {
     padding: 0 15px;
   }
 }
+
+/* User Profile Section */
+.user-profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logout-section {
+  margin-top: 20px;
+}
+
+.logout-btn {
+  background-color: #1abc9c;
+  color: #fff;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #17a589;
+  transform: scale(1.05);
+}
+
+/* Journals Section */
+.journals-section {
+  margin-top: 40px;
+}
