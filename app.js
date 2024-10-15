@@ -93,7 +93,8 @@ app.get("/myjournals", checkAuthenticated, async (req, res) => {
     res.render("myjournals", {
       posts: posts,
       currentPage: page,
-      totalPages: totalPages
+      totalPages: totalPages,
+      hasPosts: posts.length > 0 // Add a flag to check if there are posts
     });
   } catch (err) {
     console.error("Error fetching user's posts", err);
