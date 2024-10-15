@@ -3,18 +3,25 @@
 <div class="container">
   <h1 class="page-title">My Journals</h1>
   <br>
-  <% posts.forEach(function(post){ %>
-    <div class="post-preview">
-      <h2><%= post.title %></h2>
-      <p>By <%= post.author.username %> on <%= new Date(post.createdAt).toLocaleDateString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
-      <p>Status: <%= post.public ? "Public" : "Private" %></p>
-      <div class="post-excerpt">
-        <%- post.content.substring(0, 100) + " ..." %>
-        <a href="/posts/<%= post._id %>" class="read-more">Read More</a>
-      </div>  
+
+  <% if (hasPosts) { %>
+    <% posts.forEach(function(post){ %>
+      <div class="post-preview">
+        <h2><%= post.title %></h2>
+        <p>By <%= post.author.username %> on <%= new Date(post.createdAt).toLocaleDateString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
+        <p>Status: <%= post.public ? "Public" : "Private" %></p>
+        <div class="post-excerpt">
+          <%- post.content.substring(0, 100) + " ..." %>
+          <a href="/posts/<%= post._id %>" class="read-more">Read More</a>
+        </div>  
+      </div>
+      <hr>
+    <% }) %>
+  <% } else { %>
+    <div class="no-journals">
+      <p>You haven't written any journals yet. <a href="/compose">Click here</a> to start your first journal!</p>
     </div>
-    <hr>
-  <% }) %>
+  <% } %>
 </div>
 
 <%- include("partials/pagination", { currentPage: currentPage, totalPages: totalPages, pageUrl: '/myjournals' }); -%>
