@@ -77,6 +77,49 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/search", async (req, res) => {
+  const query = req.query.query;
+  try {
+    const results = await Post.find({
+      $or: [
+        { title: new RegExp(query, 'i') },  // Case-insensitive title match
+        { 'author.username': new RegExp(query, 'i') }  // Case-insensitive author match
+      ]
+    })
+    .populate('author', 'username')
+    .sort({ createdAt: -1 });  // Sort by creation date in descending order
+
+    res.render('searchResults', { results });
+  } catch (err) {
+    console.error("Error during search", err);
+    res.sendStatus(500);
+  }
+});
+
+app.get('/autocomplete', async (req, res) => {
+  const query = req.query.query;
+  try {
+    const searchResults = await Post.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+      ]
+    })
+    .populate('author', 'username')  // Populate the author username
+    .sort({ createdAt: -1 })  // Sort by creation date in descending order
+    .limit(5);
+
+    const formattedResults = searchResults.map(post => ({
+      _id: post._id,
+      title: post.title,
+      author: post.author.username
+    }));
+
+    res.json(formattedResults);
+  } catch (err) {
+    console.error("Error during autocomplete", err);
+    res.sendStatus(500);
+  }
+});
 
 app.get("/about", (req, res) => {
   res.render("about", { aboutContent: "About Content" });
