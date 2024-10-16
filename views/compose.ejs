@@ -1,20 +1,22 @@
 <%- include("partials/header"); -%>
-<h1>Compose</h1>
-<form action="/compose" method="post">
-  <div class="form-group">
-    <label>Title</label>
-    <input class="form-control" type="text" name="postTitle" required>
-    
-    <label>Post</label>
-    <textarea class="form-control" name="postBody" rows="5" cols="30" required></textarea>
-    
-    <!-- Toggle for public or private -->
+<div class="container">
+  <h1>Compose</h1>
+  <form action="/compose" method="post">
     <div class="form-group">
-      <label>Make this journal public?</label>
-      <input type="checkbox" name="isPublic" value="true"> Yes
+      <label>Title</label>
+      <input class="form-control" type="text" name="postTitle" required>
+      
+      <label>Post</label>
+      <textarea class="form-control" name="postBody" rows="5" cols="30" required></textarea>
+      
+      <!-- Toggle for public or private -->
+      <div class="form-group">
+        <label>Make this journal public?</label>
+        <input type="checkbox" name="isPublic" value="true"> Yes
+      </div>
     </div>
-  </div>
-  
-  <button class="btn btn-primary" type="submit">Publish</button>
-</form>
+    
+    <button class="btn btn-primary" type="submit">Publish</button>
+  </form>
+</div>
 <%- include("partials/footer"); -%>
