@@ -163,6 +163,16 @@ a:hover {
   color: #333;
 }
 
+.post-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px; /* space between buttons */
+}
+
+.post-actions button {
+  margin-right: 8px; /* additional space for older browsers if needed */
+}
+
 /* Styling for the pagination controls */
 .pagination {
   display: flex;

@@ -11,12 +11,12 @@
 
   <!-- My Journals Section -->
   <div class="journals-section">
-    <h2 class="page-title">My Journals</h2>
+    <!-- <h2 class="page-title">My Journals</h2> -->
     <br>
     <% if (posts.length === 0) { %>
       <p>You haven't written any journals yet. <a href="/compose">Click here to write your first journal</a>.</p>
     <% } else { %>
-      <% posts.forEach(function(post){ %>
+      <% posts.forEach(function(post) { %>
         <div class="post-preview">
           <h2><%= post.title %></h2>
           <p>By <%= post.author.username %> on <%= new Date(post.createdAt).toLocaleDateString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
@@ -24,21 +24,32 @@
           <div class="post-excerpt">
             <%- post.content.substring(0, 100) + " ..." %>
             <a href="/posts/<%= post._id %>" class="read-more">Read More</a>
-          </div>  
+          </div>
+
+          <% if (post.author._id.toString() === user._id.toString()) { %>
+            <!-- Edit and Delete Buttons -->
+            <div class="post-actions">
+              <form action="/posts/<%= post._id %>/edit" method="GET" style="display: inline;">
+                <button type="submit" class="btn btn-primary">Edit</button>
+              </form>
+              <form action="/posts/<%= post._id %>/delete" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?');">Delete</button>
+              </form>
+            </div>
+          <% } %>
         </div>
         <hr>
       <% }) %>
     <% } %>
   </div>
-  
-  <%- include("partials/pagination", { currentPage: currentPage, totalPages: totalPages, pageUrl: '/myjournals' }); -%>
 
+  <!-- Pagination and Logout -->
+  <%- include("partials/pagination", { currentPage: currentPage, totalPages: totalPages, pageUrl: '/myjournals' }); -%>
   <div class="logout-section">
     <form action="/logout" method="GET">
       <button class="logout-btn">Log Out</button>
     </form>
   </div>
-  
 </div>
 
 <%- include("partials/backToTop"); -%>
