@@ -1,17 +1,29 @@
 <!-- Pagination Controls -->
 <div class="pagination">
-    <% if (currentPage > 1) { %>
-      <a href="<%= pageUrl %>?page=<%= currentPage - 1 %>" class="pagination-link">Previous</a>
-    <% } %>
-  
-    <% for (let i = 1; i <= totalPages; i++) { %>
-      <a href="<%= pageUrl %>?page=<%= i %>" class="pagination-link <%= i === currentPage ? 'active' : '' %>">
-        <%= i %>
-      </a>
-    <% } %>
-  
-    <% if (currentPage < totalPages) { %>
-      <a href="<%= pageUrl %>?page=<%= currentPage + 1 %>" class="pagination-link">Next</a>
-    <% } %>
-  </div>
-  
+  <% if (currentPage > 1) { %>
+    <a href="<%= pageUrl %>?page=<%= currentPage - 1 %>" class="pagination-link">Prev</a>
+  <% } %>
+
+  <!-- Calculate start and end pages dynamically -->
+  <% 
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, currentPage + 1);
+
+    // Adjust the range to show exactly 3 pages if possible
+    if (endPage - startPage < 2) {
+      if (startPage > 1) startPage = Math.max(1, endPage - 2);
+      if (endPage < totalPages) endPage = Math.min(totalPages, startPage + 2);
+    }
+  %>
+
+  <!-- Display the pages in the calculated range -->
+  <% for (let i = startPage; i <= endPage; i++) { %>
+    <a href="<%= pageUrl %>?page=<%= i %>" class="pagination-link <%= i === currentPage ? 'active' : '' %>">
+      <%= i %>
+    </a>
+  <% } %>
+
+  <% if (currentPage < totalPages) { %>
+    <a href="<%= pageUrl %>?page=<%= currentPage + 1 %>" class="pagination-link">Next</a>
+  <% } %>
+</div>
