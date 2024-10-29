@@ -48,7 +48,7 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 // Pagination settings
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 8;
 
 // Home page: display public posts with pagination
 app.get("/", async (req, res) => {
