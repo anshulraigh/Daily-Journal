@@ -150,7 +150,7 @@ app.post("/compose", checkAuthenticated, async (req, res) => {
   }
 });
 
-app.get("/posts/:postId", async (req, res) => {
+app.get("/posts/:postId", checkAuthenticated, async (req, res) => {
   try {
     const post = await Post.findOne({ _id: req.params.postId }).populate('author', 'username');
     if (!post) return res.sendStatus(404);
