@@ -171,6 +171,7 @@ a:hover {
 
 .post-actions button {
   margin-right: 8px; /* additional space for older browsers if needed */
+  margin-bottom: 12px;
 }
 
 /* Styling for the pagination controls */
