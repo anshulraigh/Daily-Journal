@@ -188,6 +188,7 @@ a:hover {
   background-color: #f5f5f5;
   color: #333;
   border: 1px solid #ddd;
+  text-align: center;
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
@@ -203,19 +204,6 @@ a:hover {
   color: white;
   font-weight: bold;
   border-color: #1abc9c;
-}
-
-/* Responsive tweaks for pagination */
-@media (max-width: 768px) {
-  .pagination {
-    flex-wrap: wrap;
-  }
-
-  .pagination .pagination-link {
-    width: 100%;
-    margin: 10px 0;
-    text-align: center;
-  }
 }
 
 /* Styling for the Back to Top Button */
@@ -268,11 +256,6 @@ a:hover {
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
-  .pagination-controls .btn {
-    width: 100%;
-    margin: 10px 0;
-  }
-
   .container {
     padding: 0 15px;
   }
